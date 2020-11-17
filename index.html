@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bitcoin</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="http://bootstrapk.com/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<script>
+$(document).ready(function() {
+
+
+  $("#send").click(function(){
+
+
+      $.ajax({
+          url : "http://211.47.68.134:3000/data.json",
+          type:'POST',
+          dataType:"json",
+          success:function(data){
+
+            //console.log(data);
+            //console.log(data.privKey);
+            //console.log(data.WIF_PrivateKey);
+            //console.log(data.msg);
+            //console.log(data.msgHash);
+            //console.log(data.pubKeyRecovered);
+            //console.log(data.validSig);
+          
+
+
+            $('#publicKey').val(data.publicKey);
+            $('#privateKey').val(data.privKey);
+            $('#WIF_PrivateKey').val(data.WIF_PrivateKey);
+            $('#bitcoinAddr').val(data.bitcoinAddress);
+            $('#sgMsg').val(data.msg);
+            $('#msgHash').val(data.msgHash);
+            $('#pubKeyRecovered').val(data.pubKeyRecovered);
+            $('#validSig').val(data.validSig);
+          }
+        });
+
+    });
+
+
+
+
+  $("#send_sig").click(function(){
+
+      var sgMsg = $("#sgMsg").val();
+
+      if($("#sgMsg").val() == ""){
+        alert("메시지를 입력해주세요");
+        $("#sgMsg").focus();
+        return false;
+      }
+
+      var allData = $('form[name="sgForm"]').serialize();
+      $.ajax({
+          url : "http://211.47.68.134:3000/data_signature.json",
+          type:'POST',
+          data: allData,
+          dataType:"json",
+          success:function(data){
+
+            //console.log(data);
+            //console.log(data.privKey);
+            //console.log(data.WIF_PrivateKey);
+            //console.log(data.msg);
+            //console.log(data.msgHash);
+            //console.log(data.pubKeyRecovered);
+            console.log(data.validSig);
+          
+
+
+            $('#publicKey').val(data.publicKey);
+            $('#privateKey').val(data.privKey);
+            $('#WIF_PrivateKey').val(data.WIF_PrivateKey);
+            $('#bitcoinAddr').val(data.bitcoinAddress);
+            $('#sgMsg').val(data.msg);
+            $('#msgHash').val(data.msgHash);
+            $('#pubKeyRecovered').val(data.pubKeyRecovered);
+            $('#validSig').val(data.validSig);
+          }
+        });
+
+    });
+
+
+
+  })
+</script>
+
+
+
+
+<div class="container">
+
+
+        <header>
+          <p>
+            1. ECDSA 기반 key pair (private, public key) 생성<br>
+            2. 비트코인의 주소 체계와 같은 주소 생성<br>
+            3. 임의의 데이터(문자열)을 private key로 signature 생성,<br>
+            4. Public key를 이용하여 검증<br>
+          </p>
+        </header>
+
+        <hr>
+
+
+          <form action="/" class="form-horizontal" id="sgForm"  name="sgForm">
+            <fieldset>
+
+
+             <div class="form-group" title="">
+                <label class="col-lg-2 control-label" for="privateKey">Private Key</label>
+                <div class="col-lg-10 controls">
+                   <input class="form-control" name="privateKey" id="privateKey" maxlength="64" type="text" spellcheck="false" title="" readonly="readonly">
+      
+                </div>
+              </div>
+
+
+
+              <div class="form-group">
+                <label class="col-lg-2 control-label" for="publicKey">Public Key</label>
+                <div class="col-lg-10 controls">
+                  <textarea class="form-control" name="publicKey" id="publicKey" readonly="readonly" rows="2" title=""></textarea>
+                </div>
+              </div>
+
+
+
+
+              <div class="form-group">
+                <label class="col-lg-2 control-label" for="bitcoinAddr">bitcoin Address</label>
+                <div class="col-lg-10 controls">
+                  <input class="form-control" name="bitcoinAddr" id="bitcoinAddr" readonly="readonly" type="text">
+                </div>
+              </div>
+
+
+
+
+              <div class="form-group">
+                <label class="col-lg-2 control-label" for="WIF_PrivateKey">WIF_PrivateKey</label>
+                <div class="col-lg-10 controls">
+                  <input class="form-control" name="WIF_PrivateKey" id="WIF_PrivateKey" readonly="readonly" type="text">
+                </div>
+              </div>
+
+
+
+
+
+
+
+
+              <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10 controls">
+                  <button class="btn btn-default" id="send" title="" type="button">생성하기</button>
+                </div>
+              </div>
+
+
+
+
+
+              <div class="form-group">
+                <label class="col-lg-2 control-label" for="sgMsg">Message</label>
+                <div class="col-lg-10 controls">
+                <input class="form-control" name="sgMsg" id="sgMsg"  type="text">
+                </div>
+              </div>
+              <div class="form-group" style="display:none;">
+                <label class="col-lg-2 control-label" for="sgType">Signature Type</label>
+                <div class="col-lg-10 controls">
+                  <div class="btn-group" data-toggle="buttons" id="sgType">
+                    <label class="btn btn-default active" title="Introduced by inputs.io, see https://inputs.io/clearsign"><input name="sgType" value="inputs_io" type="radio" checked="">Inputs.IO</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 control-label" for="msgHash">msgHash</label>
+                <div class="col-lg-10 controls">
+                  <textarea class="form-control" id="msgHash" readonly="readonly" rows="2" spellcheck="false"></textarea>
+                </div>
+              </div>
+
+
+
+              <div class="form-group">
+                <label class="col-lg-2 control-label" for="pubKeyRecovered">pubKey 복구</label>
+                <div class="col-lg-10 controls">
+                    <input class="form-control" id="pubKeyRecovered" readonly="readonly" type="text">
+                </div>
+              </div>
+
+
+
+
+              
+              <div class="form-group">
+                <label class="col-lg-2 control-label" for="validSig">유효성검사</label>
+                <div class="col-lg-10 controls">
+                    <input class="form-control" id="validSig" readonly="readonly" type="text">
+                </div>
+              </div>
+
+
+
+
+
+              <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10 controls">
+                  <button class="btn btn-default" id="send_sig" title="" type="button">사인하기</button>
+                </div>
+              </div>
+
+
+
+
+            </fieldset>
+          </form>
+
+        
+
+      </div>
+
+
+  </body>
+</html>
