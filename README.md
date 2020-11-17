@@ -18,7 +18,6 @@ test.js
 구동 방법은 node test.js 입니다.
 
 
-/*
 출력 결과: 
 
 Private key: 150677f750d32aeb3f5fc4f911423dc067416a8092849d6d289b93a668079c3e
@@ -67,7 +66,6 @@ Recovered pubKey: 0223f8c3fd5e2cf43fa96e25f251f8a8cd800d7b1a4bda99761551d1632a7d
 
 Signature valid? true
 
-*/
 
 
 
