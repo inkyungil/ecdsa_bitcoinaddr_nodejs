@@ -25,8 +25,10 @@ Private key: 150677f750d32aeb3f5fc4f911423dc067416a8092849d6d289b93a668079c3e
 Public key : 23f8c3fd5e2cf43fa96e25f251f8a8cd800d7b1a4bda99761551d1632a7de7676be20371b5e3d1fd6423a15378721f6f049c0d2ea83bd41de2f5eb39bcea2646
 Public key (compressed): 0223f8c3fd5e2cf43fa96e25f251f8a8cd800d7b1a4bda99761551d1632a7de767
 
+
 Msg: 하이! 인경일입니다.
 Msg hash: 6160211cb7352faaf39a40705e7e4031b1047c8a84a5ae0a5f25ad15c53a9bff
+
 Signature: Signature {
   r: BN {
     negative: 0,
@@ -54,6 +56,7 @@ Signature: Signature {
   },
   recoveryParam: 0
 }
+
 
 Recovered pubKey: 0223f8c3fd5e2cf43fa96e25f251f8a8cd800d7b1a4bda99761551d1632a7de767
 Signature valid? true
